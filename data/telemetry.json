@@ -1,0 +1,51 @@
+{
+  "OLT-01": {
+    "cpu_pct": 34,
+    "mem_pct": 41,
+    "uplink_utilization_pct": 47,
+    "uptime_days": 389,
+    "onu_total": 46,
+    "onu_online": 46,
+    "temperature_c": 41,
+    "alarms": []
+  },
+  "OLT-12": {
+    "cpu_pct": 61,
+    "mem_pct": 58,
+    "uplink_utilization_pct": 83,
+    "uptime_days": 212,
+    "onu_total": 214,
+    "onu_online": 211,
+    "temperature_c": 47,
+    "alarms": [
+      {
+        "severity": "minor",
+        "message": "Uplink 0/19/0 utilization above 80% for 6h"
+      },
+      {
+        "severity": "warning",
+        "message": "3 ONUs offline > 24h (suspected power)"
+      }
+    ]
+  },
+  "SW-01": {
+    "cpu_pct": 22,
+    "mem_pct": 37,
+    "uplink_utilization_pct": 52,
+    "uptime_days": 512,
+    "onu_total": null,
+    "onu_online": null,
+    "temperature_c": 39,
+    "alarms": []
+  },
+  "RTR-01": {
+    "cpu_pct": 18,
+    "mem_pct": 44,
+    "uplink_utilization_pct": 38,
+    "uptime_days": 730,
+    "onu_total": null,
+    "onu_online": null,
+    "temperature_c": 36,
+    "alarms": []
+  }
+}

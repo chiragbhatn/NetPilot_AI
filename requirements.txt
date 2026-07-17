@@ -1,0 +1,6 @@
+openai>=1.40,<3
+chromadb>=1.0,<2
+streamlit>=1.37
+python-dotenv>=1.0
+pydantic>=2.7
+pandas>=2.0

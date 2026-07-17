@@ -1,0 +1,1151 @@
+{
+  "devices": [
+    {
+      "name": "OLT-01",
+      "vendor": "Huawei",
+      "model": "MA5800-X7",
+      "role": "olt",
+      "site": "POP-North",
+      "mgmt_ip": "10.10.1.11",
+      "status": "active",
+      "software": "V800R021C10",
+      "uplink_to": "SW-01"
+    },
+    {
+      "name": "OLT-12",
+      "vendor": "Huawei",
+      "model": "MA5800-X17",
+      "role": "olt",
+      "site": "POP-East",
+      "mgmt_ip": "10.10.1.22",
+      "status": "active",
+      "software": "V800R021C10",
+      "uplink_to": "SW-01"
+    },
+    {
+      "name": "SW-01",
+      "vendor": "Cisco",
+      "model": "Catalyst 9300-48T",
+      "role": "aggregation",
+      "site": "DC-Core",
+      "mgmt_ip": "10.10.0.2",
+      "status": "active",
+      "software": "IOS-XE 17.9.4",
+      "uplink_to": "RTR-01"
+    },
+    {
+      "name": "RTR-01",
+      "vendor": "Cisco",
+      "model": "ASR-9901",
+      "role": "core-router",
+      "site": "DC-Core",
+      "mgmt_ip": "10.10.0.1",
+      "status": "active",
+      "software": "IOS-XR 7.9.2",
+      "uplink_to": "INTERNET"
+    }
+  ],
+  "interfaces": {
+    "OLT-01": [
+      {
+        "name": "0/19/0",
+        "type": "10GE uplink",
+        "to": "SW-01 Te1/1/1",
+        "status": "up"
+      }
+    ],
+    "OLT-12": [
+      {
+        "name": "0/19/0",
+        "type": "10GE uplink",
+        "to": "SW-01 Te1/1/2",
+        "status": "up"
+      },
+      {
+        "name": "0/19/1",
+        "type": "10GE uplink (standby)",
+        "to": "SW-01 Te1/1/3",
+        "status": "up"
+      }
+    ],
+    "SW-01": [
+      {
+        "name": "Te1/1/1",
+        "type": "10GE",
+        "to": "OLT-01 0/19/0",
+        "status": "up"
+      },
+      {
+        "name": "Te1/1/2",
+        "type": "10GE",
+        "to": "OLT-12 0/19/0",
+        "status": "up"
+      },
+      {
+        "name": "Te1/1/3",
+        "type": "10GE",
+        "to": "OLT-12 0/19/1",
+        "status": "up"
+      },
+      {
+        "name": "Fo1/1/1",
+        "type": "40GE uplink",
+        "to": "RTR-01 Hu0/0/0/1",
+        "status": "up"
+      }
+    ],
+    "RTR-01": [
+      {
+        "name": "Hu0/0/0/1",
+        "type": "40GE",
+        "to": "SW-01 Fo1/1/1",
+        "status": "up"
+      },
+      {
+        "name": "Hu0/0/0/0",
+        "type": "100GE transit",
+        "to": "Upstream ISP",
+        "status": "up"
+      }
+    ]
+  },
+  "vlans": [
+    {
+      "id": 100,
+      "name": "RES-DATA",
+      "purpose": "Residential internet",
+      "status": "active",
+      "svi": "SW-01 Vlan100",
+      "dhcp_relay": "10.20.0.10"
+    },
+    {
+      "id": 150,
+      "name": "RES-VOICE",
+      "purpose": "Residential voice",
+      "status": "active",
+      "svi": "SW-01 Vlan150",
+      "dhcp_relay": "10.20.0.10"
+    },
+    {
+      "id": 200,
+      "name": "PREMIUM-DATA",
+      "purpose": "Premium internet (legacy)",
+      "status": "active",
+      "svi": "SW-01 Vlan200",
+      "dhcp_relay": "10.20.0.10"
+    },
+    {
+      "id": 220,
+      "name": "PREMIUM-DATA-NEW",
+      "purpose": "Premium internet (new segment)",
+      "status": "active",
+      "svi": "SW-01 Vlan220",
+      "dhcp_relay": "10.20.0.10",
+      "note": "DHCP relay added 2026-06-15 after incident INC-2419"
+    },
+    {
+      "id": 300,
+      "name": "ENT-DATA",
+      "purpose": "Enterprise dedicated internet",
+      "status": "active",
+      "svi": "RTR-01 BVI300",
+      "dhcp_relay": null
+    },
+    {
+      "id": 400,
+      "name": "MGMT",
+      "purpose": "Device management",
+      "status": "active",
+      "svi": "SW-01 Vlan400",
+      "dhcp_relay": null
+    }
+  ],
+  "topology": {
+    "layers": [
+      "Access (OLT-01, OLT-12)",
+      "Aggregation (SW-01)",
+      "Core (RTR-01)",
+      "Internet"
+    ],
+    "links": [
+      {
+        "a": "OLT-01",
+        "b": "SW-01"
+      },
+      {
+        "a": "OLT-12",
+        "b": "SW-01"
+      },
+      {
+        "a": "SW-01",
+        "b": "RTR-01"
+      },
+      {
+        "a": "RTR-01",
+        "b": "INTERNET"
+      }
+    ]
+  },
+  "customers": [
+    {
+      "id": "CUST-1001",
+      "name": "Aarav Sharma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/0",
+      "onu": "ONU-12-001",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1002",
+      "name": "Meera Gupta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/1",
+      "onu": "ONU-12-002",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1003",
+      "name": "Rohan Verma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/2",
+      "onu": "ONU-12-003",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1004",
+      "name": "Priya Mehta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/3",
+      "onu": "ONU-12-004",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1005",
+      "name": "Kabir Iyer",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/4",
+      "onu": "ONU-12-005",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1006",
+      "name": "Ananya Bose",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/5",
+      "onu": "ONU-12-006",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1007",
+      "name": "Vikram Khan",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/6",
+      "onu": "ONU-12-007",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1008",
+      "name": "Isha Joshi",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/7",
+      "onu": "ONU-12-008",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1009",
+      "name": "Dev Patel",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/8",
+      "onu": "ONU-12-009",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1010",
+      "name": "Tara Kulkarni",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/9",
+      "onu": "ONU-12-010",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1011",
+      "name": "Arjun Reddy",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/10",
+      "onu": "ONU-12-011",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1012",
+      "name": "Nisha Das",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/11",
+      "onu": "ONU-12-012",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1013",
+      "name": "Sameer Nair",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/12",
+      "onu": "ONU-12-013",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1014",
+      "name": "Pooja Sharma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/13",
+      "onu": "ONU-12-014",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1015",
+      "name": "Rahul Gupta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/14",
+      "onu": "ONU-12-015",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1016",
+      "name": "Sneha Verma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/1/15",
+      "onu": "ONU-12-016",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1017",
+      "name": "Aditya Mehta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/0",
+      "onu": "ONU-12-017",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1018",
+      "name": "Kavya Iyer",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/1",
+      "onu": "ONU-12-018",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1019",
+      "name": "Manish Bose",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/2",
+      "onu": "ONU-12-019",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1020",
+      "name": "Ritu Khan",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/3",
+      "onu": "ONU-12-020",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1021",
+      "name": "Nikhil Joshi",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/4",
+      "onu": "ONU-12-021",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1022",
+      "name": "Divya Patel",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/5",
+      "onu": "ONU-12-022",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1023",
+      "name": "Suresh Kulkarni",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/6",
+      "onu": "ONU-12-023",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1024",
+      "name": "Lata Reddy",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/7",
+      "onu": "ONU-12-024",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1025",
+      "name": "Farhan Das",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/8",
+      "onu": "ONU-12-025",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1026",
+      "name": "Zoya Nair",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/9",
+      "onu": "ONU-12-026",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1027",
+      "name": "Aarav Sharma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/10",
+      "onu": "ONU-12-027",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1028",
+      "name": "Meera Gupta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/11",
+      "onu": "ONU-12-028",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1029",
+      "name": "Rohan Verma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/12",
+      "onu": "ONU-12-029",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1030",
+      "name": "Priya Mehta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/13",
+      "onu": "ONU-12-030",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1031",
+      "name": "Kabir Iyer",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/14",
+      "onu": "ONU-12-031",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1032",
+      "name": "Ananya Bose",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/2/15",
+      "onu": "ONU-12-032",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1033",
+      "name": "Vikram Khan",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/0",
+      "onu": "ONU-12-033",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1034",
+      "name": "Isha Joshi",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/1",
+      "onu": "ONU-12-034",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1035",
+      "name": "Dev Patel",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/2",
+      "onu": "ONU-12-035",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1036",
+      "name": "Tara Kulkarni",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/3",
+      "onu": "ONU-12-036",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1037",
+      "name": "Arjun Reddy",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/4",
+      "onu": "ONU-12-037",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1038",
+      "name": "Nisha Das",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/5",
+      "onu": "ONU-12-038",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1039",
+      "name": "Sameer Nair",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/6",
+      "onu": "ONU-12-039",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1040",
+      "name": "Pooja Sharma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/7",
+      "onu": "ONU-12-040",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1041",
+      "name": "Rahul Gupta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/8",
+      "onu": "ONU-12-041",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1042",
+      "name": "Sneha Verma",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/9",
+      "onu": "ONU-12-042",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1043",
+      "name": "Aditya Mehta",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/10",
+      "onu": "ONU-12-043",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1044",
+      "name": "Kavya Iyer",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/11",
+      "onu": "ONU-12-044",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1045",
+      "name": "Manish Bose",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/12",
+      "onu": "ONU-12-045",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1046",
+      "name": "Ritu Khan",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/13",
+      "onu": "ONU-12-046",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1047",
+      "name": "Nikhil Joshi",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/14",
+      "onu": "ONU-12-047",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1048",
+      "name": "Divya Patel",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/3/15",
+      "onu": "ONU-12-048",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1049",
+      "name": "Suresh Kulkarni",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/4/0",
+      "onu": "ONU-12-049",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1050",
+      "name": "Lata Reddy",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/4/1",
+      "onu": "ONU-12-050",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1051",
+      "name": "Farhan Das",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/4/2",
+      "onu": "ONU-12-051",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1052",
+      "name": "Zoya Nair",
+      "tier": "Premium",
+      "device": "OLT-12",
+      "port": "0/4/3",
+      "onu": "ONU-12-052",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1053",
+      "name": "Aarav Sharma",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/0",
+      "onu": "ONU-01-001",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1054",
+      "name": "Meera Gupta",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/1",
+      "onu": "ONU-01-002",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1055",
+      "name": "Rohan Verma",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/2",
+      "onu": "ONU-01-003",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1056",
+      "name": "Priya Mehta",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/3",
+      "onu": "ONU-01-004",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1057",
+      "name": "Kabir Iyer",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/4",
+      "onu": "ONU-01-005",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1058",
+      "name": "Ananya Bose",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/5",
+      "onu": "ONU-01-006",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1059",
+      "name": "Vikram Khan",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/6",
+      "onu": "ONU-01-007",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1060",
+      "name": "Isha Joshi",
+      "tier": "Premium",
+      "device": "OLT-01",
+      "port": "0/1/7",
+      "onu": "ONU-01-008",
+      "vlan": 200,
+      "service": "FTTH Premium 300 Mbps"
+    },
+    {
+      "id": "CUST-1061",
+      "name": "Apex Logistics Pvt Ltd",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/1",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1062",
+      "name": "BlueRiver Diagnostics",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/2",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1063",
+      "name": "Cortex Software Labs",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/3",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1064",
+      "name": "Dhruv Textiles",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/4",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1065",
+      "name": "Everline BPO Services",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/5",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1066",
+      "name": "Falcon Securities",
+      "tier": "Enterprise",
+      "device": "SW-01",
+      "port": "Gi1/0/6",
+      "onu": null,
+      "vlan": 300,
+      "service": "Dedicated Internet 1 Gbps"
+    },
+    {
+      "id": "CUST-1067",
+      "name": "Nisha Das",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/4/0",
+      "onu": "ONU-01-R001",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1068",
+      "name": "Sameer Nair",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/4/1",
+      "onu": "ONU-12-R002",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1069",
+      "name": "Pooja Sharma",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/4/2",
+      "onu": "ONU-01-R003",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1070",
+      "name": "Rahul Gupta",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/4/3",
+      "onu": "ONU-12-R004",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1071",
+      "name": "Sneha Verma",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/4/4",
+      "onu": "ONU-01-R005",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1072",
+      "name": "Aditya Mehta",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/4/5",
+      "onu": "ONU-12-R006",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1073",
+      "name": "Kavya Iyer",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/4/6",
+      "onu": "ONU-01-R007",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1074",
+      "name": "Manish Bose",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/4/7",
+      "onu": "ONU-12-R008",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1075",
+      "name": "Ritu Khan",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/4/8",
+      "onu": "ONU-01-R009",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1076",
+      "name": "Nikhil Joshi",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/4/9",
+      "onu": "ONU-12-R010",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1077",
+      "name": "Divya Patel",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/5/0",
+      "onu": "ONU-01-R011",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1078",
+      "name": "Suresh Kulkarni",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/5/1",
+      "onu": "ONU-12-R012",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1079",
+      "name": "Lata Reddy",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/5/2",
+      "onu": "ONU-01-R013",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1080",
+      "name": "Farhan Das",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/5/3",
+      "onu": "ONU-12-R014",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1081",
+      "name": "Zoya Nair",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/5/4",
+      "onu": "ONU-01-R015",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1082",
+      "name": "Aarav Sharma",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/5/5",
+      "onu": "ONU-12-R016",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1083",
+      "name": "Meera Gupta",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/5/6",
+      "onu": "ONU-01-R017",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1084",
+      "name": "Rohan Verma",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/5/7",
+      "onu": "ONU-12-R018",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1085",
+      "name": "Priya Mehta",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/5/8",
+      "onu": "ONU-01-R019",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1086",
+      "name": "Kabir Iyer",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/5/9",
+      "onu": "ONU-12-R020",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1087",
+      "name": "Ananya Bose",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/6/0",
+      "onu": "ONU-01-R021",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1088",
+      "name": "Vikram Khan",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/6/1",
+      "onu": "ONU-12-R022",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1089",
+      "name": "Isha Joshi",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/6/2",
+      "onu": "ONU-01-R023",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1090",
+      "name": "Dev Patel",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/6/3",
+      "onu": "ONU-12-R024",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1091",
+      "name": "Tara Kulkarni",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/6/4",
+      "onu": "ONU-01-R025",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1092",
+      "name": "Arjun Reddy",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/6/5",
+      "onu": "ONU-12-R026",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1093",
+      "name": "Nisha Das",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/6/6",
+      "onu": "ONU-01-R027",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1094",
+      "name": "Sameer Nair",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/6/7",
+      "onu": "ONU-12-R028",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1095",
+      "name": "Pooja Sharma",
+      "tier": "Residential",
+      "device": "OLT-01",
+      "port": "0/6/8",
+      "onu": "ONU-01-R029",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    },
+    {
+      "id": "CUST-1096",
+      "name": "Rahul Gupta",
+      "tier": "Residential",
+      "device": "OLT-12",
+      "port": "0/6/9",
+      "onu": "ONU-12-R030",
+      "vlan": 100,
+      "service": "FTTH Home 100 Mbps"
+    }
+  ]
+}
