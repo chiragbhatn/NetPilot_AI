@@ -3,7 +3,7 @@
 **An explainable, agentic AI change-review board for ISP networks.** Describe a network change in plain English — NetPilot plans it, gathers its own evidence, checks policy, scores risk, debates itself, explains its decision, and waits for a human to approve before anything executes.
 
 > 🔗 **Live demo:** (https://netpilot-ai-609720987965.asia-south1.run.app)
-> 🎬 **Demo video (3 min):** `<ADD-YOUR-VIDEO-URL>`
+> 🎬 **Demo video (3 min):** (https://drive.google.com/drive/folders/1FQBMCM_fWg-X_FLlgUOtZ8rZ9KtuNP69?usp=drive_link)
 
 ---
 
